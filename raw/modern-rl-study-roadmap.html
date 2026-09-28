@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hands-on Modern RL 学习路线图</title>
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; padding: 32px 16px 56px;
+    background: #f4f6f8;
+    color: #1f2937;
+    font-family: -apple-system, "Segoe UI", "PingFang SC", "Microsoft YaHei", Roboto, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap { max-width: 1060px; margin: 0 auto; }
+  h1 { font-size: 26px; margin: 0 0 6px; }
+  .sub { color: #4b5563; font-size: 15px; margin: 0 0 14px; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
+  .fact {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 999px;
+    padding: 4px 14px; font-size: 13px; color: #334155;
+  }
+  .diag {
+    background: #ecfeff; border: 1px solid #a5f3fc; border-radius: 12px;
+    padding: 12px 16px; font-size: 14px; color: #155e75; margin: 14px 0 26px;
+  }
+  .diag b { color: #0e7490; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: 14px; font-size: 13px; color: #475569; margin-bottom: 22px; }
+  .tag {
+    display: inline-block; border-radius: 6px; padding: 1px 9px; font-size: 12px;
+    font-weight: 600; vertical-align: middle;
+  }
+  .tag-deep { background: #0d9488; color: #fff; }
+  .tag-pick { background: #fff; color: #b45309; border: 1px solid #d97706; }
+  .tag-ref  { background: #e5e7eb; color: #374151; }
+
+  .timeline { position: relative; padding-left: 44px; }
+  .timeline::before {
+    content: ""; position: absolute; left: 17px; top: 10px; bottom: 10px;
+    width: 2px; background: #cbd5e1;
+  }
+  .stage { position: relative; margin-bottom: 18px; }
+  .node {
+    position: absolute; left: -44px; top: 14px;
+    width: 36px; height: 36px; border-radius: 50%;
+    color: #fff; font-weight: 700; font-size: 15px;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 0 0 4px #f4f6f8;
+  }
+  .card {
+    background: #fff; border: 1px solid #e2e8f0; border-radius: 14px;
+    padding: 16px 18px;
+  }
+  .card.star { background: #fffbeb; border: 2px solid #f59e0b; }
+  .card-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 12px; margin-bottom: 8px; }
+  .card-head h2 { font-size: 17px; margin: 0; }
+  .dur { font-size: 12.5px; color: #64748b; background: #f1f5f9; border-radius: 999px; padding: 2px 11px; }
+  .ribbon { font-size: 12.5px; font-weight: 700; color: #b45309; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0 12px; }
+  .chip {
+    font-size: 12.5px; background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 7px; padding: 2px 9px; color: #334155;
+  }
+  .chip b { color: #0f172a; }
+  .cols { display: flex; flex-wrap: wrap; gap: 12px; }
+  .col { flex: 1 1 300px; font-size: 13.5px; }
+  .col .lab {
+    font-size: 12px; font-weight: 700; letter-spacing: .04em;
+    color: #0d9488; margin-bottom: 3px;
+  }
+  .card.star .col .lab { color: #b45309; }
+  .col p { margin: 0; color: #374151; }
+
+  .loop-title { font-size: 17px; margin: 30px 0 12px; }
+  .loop { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+  .step {
+    flex: 1 1 180px; background: #fff; border: 1px solid #e2e8f0; border-radius: 12px;
+    padding: 12px 14px; font-size: 13.5px; position: relative;
+  }
+  .step .n {
+    display: inline-block; width: 22px; height: 22px; border-radius: 50%;
+    background: #0d9488; color: #fff; font-size: 12.5px; font-weight: 700;
+    text-align: center; line-height: 22px; margin-right: 7px;
+  }
+  .step .t { font-weight: 700; }
+  .step .m { display: block; color: #64748b; font-size: 12px; margin-top: 3px; margin-left: 29px; }
+  .arrow { display: flex; align-items: center; color: #94a3b8; font-size: 20px; }
+
+  .rules { margin-top: 28px; background: #fff; border: 1px solid #e2e8f0; border-radius: 14px; padding: 16px 18px; }
+  .rules h2 { font-size: 16px; margin: 0 0 10px; }
+  .rules ol { margin: 0; padding-left: 20px; font-size: 14px; color: #374151; }
+  .rules li { margin-bottom: 6px; }
+  .foot { margin-top: 22px; font-size: 12.5px; color: #94a3b8; }
+  @media (max-width: 640px) {
+    body { padding: 22px 10px 40px; }
+    .timeline { padding-left: 36px; }
+    .timeline::before { left: 13px; }
+    .node { left: -36px; width: 30px; height: 30px; font-size: 13px; }
+    .arrow { display: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>Hands-on Modern RL · 分阶段学习路线图</h1>
+  <p class="sub">基于 WalkingLabs《Hands-on Modern RL》目录结构拆解，建议节奏为每晚 1–1.5 小时。</p>
+  <div class="facts">
+    <span class="fact">7 个部分</span>
+    <span class="fact">29 章</span>
+    <span class="fact">约 140 个小节</span>
+    <span class="fact">附录 A 工程 / B 代码 / C 资源 / D 数学</span>
+  </div>
+  <div class="diag">
+    <b>为什么学不进去：</b>这不是"一个晚上的教程"，而是一学期体量、一直更新到 LLM 后训练与 Agent 前沿的<b>实验手册</b>。
+    坐下来想从头线性读到尾，必然被目录压垮。正确用法是<b>分阶段推进、每章先跑代码再回头读理论</b>，附录当工具书而不是前置任务。
+  </div>
+
+  <div class="legend">
+    <span><span class="tag tag-deep">精读</span> 逐节读 + 跑实验 + 做检查题</span>
+    <span><span class="tag tag-pick">选读</span> 按兴趣跳读，掌握核心结论即可</span>
+    <span><span class="tag tag-ref">工具书</span> 卡住时查阅，不要从头读</span>
+  </div>
+
+  <div class="timeline">
+
+    <div class="stage">
+      <div class="node" style="background:#64748b;">0</div>
+      <div class="card">
+        <div class="card-head">
+          <h2>点火：先看到它"学会"</h2>
+          <span class="dur">今晚 60–90 分钟</span>
+          <span class="tag tag-deep">精读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>序章</b> 导论 / 发展史（速读）</span>
+          <span class="chip"><b>环境配置</b></span>
+          <span class="chip"><b>1.1</b> 跑通 CartPole</span>
+          <span class="chip"><b>1.2 / 1.3</b> 指标与可视化（跟着看）</span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>零安装：直接打开课程的 ModelScope 在线创空间，用 PPO 训练 CartPole（CPU 约 30–60 秒），看奖励曲线从 ~20 爬到 500，再看策略回放。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>能指着曲线说清：episode、reward、policy 各是什么？为什么起点在 20 附近、500 分意味着什么？（PPO 原理先不懂，没关系。）</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="node" style="background:#0d9488;">1</div>
+      <div class="card">
+        <div class="card-head">
+          <h2>地基：MDP 与 Bellman</h2>
+          <span class="dur">约 1.5–2 周</span>
+          <span class="tag tag-deep">精读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>Ch2</b> 探索与利用 · MDP 与马尔可夫性 · 策略/价值/回报 · 折扣/轨迹/POMDP</span>
+          <span class="chip"><b>Ch3</b> V/Q 函数 · Bellman 期望与最优方程 · 数值实验</span>
+          <span class="chip"><b>Ch4</b> DP / MC / TD · on/off-policy 分类 · 奖励函数设计</span>
+          <span class="chip"><b>附录 D</b> 概率期望、线代 <span class="tag tag-ref">按需查</span></span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>完成 3.3 价值函数数值实验；在格子世界里分别用 MC 和 TD 估计 V，亲手改一次折扣因子 γ，看价值估计怎么变。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>合上讲义默写出 Bellman 期望方程；说清 MC 与 TD 如何估计价值、各自偏差/方差的区别；解释探索-利用困境。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="node" style="background:#0284c7;">2</div>
+      <div class="card">
+        <div class="card-head">
+          <h2>深度 RL 核心（全书最重的一块）</h2>
+          <span class="dur">约 3–4 周</span>
+          <span class="tag tag-deep">精读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>Ch5</b> Q-Learning → DQN · DQN 改进家族 · Distributional RL · LunarLander/Atari</span>
+          <span class="chip"><b>Ch6</b> 策略梯度定理 · REINFORCE 与基线 · PG 改进</span>
+          <span class="chip"><b>Ch7</b> 优势函数 · Actor-Critic 同步更新</span>
+          <span class="chip"><b>Ch8</b> TRPO 信任域 · PPO-Clip · GAE · 长程任务</span>
+          <span class="chip"><b>Ch9</b> DDPG / TD3 / SAC · Model-Based · AlphaZero / Dreamer V3</span>
+          <span class="chip"><b>附录 B.2</b> PPO/GAE 实现 <span class="tag tag-ref">对照查</span></span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>按顺序复现：DQN 解 LunarLander → 从零写 REINFORCE 解 CartPole → 跑通 PPO 长程任务；每个实验至少改一个超参（学习率 / γ / clip 范围）观察曲线。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>不看资料写出 REINFORCE；说清 replay buffer 和 target network 各解决 DQN 的什么问题；PPO clip 在防止什么；GAE 的 λ 在平衡什么。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="node" style="background:#c2410c;">3</div>
+      <div class="card">
+        <div class="card-head">
+          <h2>高级经典方法</h2>
+          <span class="dur">约 1.5–2 周</span>
+          <span class="tag tag-pick">选读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>Ch10</b> 离线 RL · Decision Transformer / Trajectory Transformer / Diffuser · LLM 视角</span>
+          <span class="chip"><b>Ch11</b> 行为克隆 / DAgger · 逆向 RL / GAIL · 元 RL（MAML/RL²/PEARL）</span>
+          <span class="chip"><b>Ch12</b> 内在动机探索（ICM/RND）· 多智能体（CTDE/MADDPG/MAPPO）· 分层 RL</span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>至少完成一个：跑 Decision Transformer 的离线实验，或跑通行为克隆并观察它在长轨迹上的失效。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>说清离线 RL 的分布偏移为什么致命、举一种应对方法；解释 BC 的 compounding error、DAgger 怎么缓解；CTDE 是什么。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="node" style="background:#b45309;">4</div>
+      <div class="card star">
+        <div class="card-head">
+          <h2>LLM 对齐与后训练</h2>
+          <span class="ribbon">★ 与你的 OpenAI 研究目标最相关，优先级最高</span>
+          <span class="dur">约 3–4 周</span>
+          <span class="tag tag-deep">精读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>Ch13</b> RLHF 流水线：SFT · Bradley-Terry 奖励模型 · PPO 微调 · veRL 训 GSM8K</span>
+          <span class="chip"><b>Ch14</b> 框架对比 · 现代后训练范式 · 稳定性与分布式</span>
+          <span class="chip"><b>Ch15</b> DPO 推导 / 指标 / 家族选型</span>
+          <span class="chip"><b>Ch16</b> GRPO · R1-Zero / DAPO · RLVR 与 Verifier 工程</span>
+          <span class="chip"><b>Ch17</b> 推理模型 · Test-Time Scaling · 思考预算</span>
+          <span class="chip"><b>Ch18</b> PRM（结果 vs 过程奖励）· 推理时搜索</span>
+          <span class="chip"><b>Ch19</b> Constitutional AI / RLAIF</span>
+          <span class="chip"><b>附录 B.1/B.3/B.4</b> SFT/KL、DPO、GRPO 实现 <span class="tag tag-ref">对照查</span></span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>跟做 13.7（veRL + PPO 训 GSM8K）或 16 章任一 RLVR 实验（CPU/小模型也可跑通规模）；手推一遍 DPO 目标函数的来历。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>画出 SFT → RM → RL 全流程并标出 KL 约束位置；说清 DPO 如何消掉显式奖励模型；GRPO 相对 PPO 省掉了什么、优势怎么算；RLVR 的奖励从哪来。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="node" style="background:#334155;">5</div>
+      <div class="card">
+        <div class="card-head">
+          <h2>前沿：Agentic / 多模态 / 安全（研究视角）</h2>
+          <span class="dur">持续进行，survey 模式</span>
+          <span class="tag tag-pick">选读</span>
+        </div>
+        <div class="chips">
+          <span class="chip"><b>Ch20–23</b> 工具调用与多轮 RL · SWE-RL 代码智能体 · Deep Research/浏览器 · Computer Use/GUI</span>
+          <span class="chip"><b>Ch24–27</b> 视觉语言模型 RL · 音频语音 RL · 具身 VLA · 视觉生成 DanceGRPO</span>
+          <span class="chip"><b>Ch28–29</b> 奖励黑客与评估 · 自我博弈 · RL Scaling Laws · 未来方向</span>
+          <span class="chip"><b>附录 A</b> 训练调试 <span class="tag tag-ref">工具书</span></span>
+          <span class="chip"><b>附录 C</b> 论文路线图 / GPU 估算 / 指标词典 <span class="tag tag-ref">工具书</span></span>
+        </div>
+        <div class="cols">
+          <div class="col">
+            <div class="lab">动手任务</div>
+            <p>配合 C.1 论文阅读路线，每章挑一篇核心论文精读 + 一个小实验复现；这一阶段直接为你未来的研究方向选题服务。</p>
+          </div>
+          <div class="col">
+            <div class="lab">通关检查</div>
+            <p>能讲清至少一个真实的 reward hacking 案例及防御；能就某一前沿主题（如 SWE-RL 或 RLVR）写出一页研究现状综述。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <h2 class="loop-title">每次学习的 90 分钟闭环</h2>
+  <div class="loop">
+    <div class="step"><span class="n">1</span><span class="t">读概念 25′</span><span class="m">只攻一个概念，带着导读问题读</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">2</span><span class="t">跑代码 30′</span><span class="m">跑通本章实验，看到曲线/回放</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">3</span><span class="t">动手改 20′</span><span class="m">改一个超参或结构，预测并验证变化</span></div>
+    <div class="arrow">→</div>
+    <div class="step"><span class="n">4</span><span class="t">讲+记 15′</span><span class="m">合上讲义讲一遍（Feynman），记笔记</span></div>
+  </div>
+
+  <div class="rules">
+    <h2>四条防放弃原则</h2>
+    <ol>
+      <li><b>这是实验手册，不是小说。</b>每章"通关"标准 = 导读问题答得出 + 实验跑通 + 改过一个变量，而非"看完"。</li>
+      <li><b>附录 D 数学不要先读。</b>推导卡住时再按节查（概率期望 → D.2，梯度 → D.3，KL/熵 → D.4）。</li>
+      <li><b>允许跳读和二刷。</b>Stage 3 可整体延后；很多内容在 Stage 4 第二次遇到时才会真正懂。</li>
+      <li><b>同一卡点超过 40 分钟就求助。</b>顺序：重跑实验 → 对照附录 B 实现 → 把报错和你的猜测发我，我带你定位。</li>
+    </ol>
+  </div>
+
+  <p class="foot">路线图依据教程公开目录整理，时间为建议节奏，可按个人基础伸缩。</p>
+</div>
+</body>
+</html>
